@@ -1,0 +1,73 @@
+<div class="container">
+
+    <div class="row m-2">
+        <nav>
+            <a routerLink="form" class="btn btn-primary col-md-3">Agregar nuevo usuario</a>
+        </nav>
+    </div>
+    <div class="cl-sm table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Informacion de contacto</th>
+                    <th>Direccion</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="text-start">
+
+                @for (usuario of usuarios; track usuario.IdUsuario) {
+
+                <tr>
+
+
+                    <td>
+                        <span>
+
+                            <img [src]="'data:image/png;base64,' + usuario.Imagen" />
+                            <br>
+                            {{usuario.Nombre}} {{usuario.ApellidoPaterno}} {{usuario.ApellidoMaterno}}
+
+                        </span>
+                    </td>
+
+                    <td>
+                        <div>
+                            Email: <span class="text-muted"> {{usuario.Email}}</span>
+                            <br>
+                            Telefono: <span class="text-muted"> {{usuario.Telefono}}</span>
+                            <br>
+                            Celular: <span class="text-muted"> {{usuario.Celular}}</span>
+                        </div>
+                    </td>
+                    <td>
+                        @for (direccion of usuario.Direcciones; track direccion.IdDireccion) {
+                        <div class="mb-2 border-bottom pb-1">
+                            {{ direccion.Calle }}, {{ direccion.NumeroExterior }}
+                            <br>
+                            <small class="text-muted">Col. {{ direccion.colonia.Nombre}}</small> <br>
+                            <small class="text-muted">{{ direccion.colonia.municipio.estado.Nombre}}, {{
+                                direccion.colonia.municipio.Nombre}} </small>
+                        </div>
+                        }@empty {
+                        <span class="text-muted">Sin dirección registrada</span>
+                        }
+                    </td>
+
+                    <td>
+                        <a class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
+                        <a class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input switch-estatus" type="checkbox" role="switch">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">estatus</label>
+                        </div>
+
+                    </td>
+                </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
