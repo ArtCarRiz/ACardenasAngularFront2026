@@ -41,8 +41,17 @@ export class UsuarioService {
     return this.http.get<result<colonia>>(this.url+"/colonia?identificador=" + idMunicipio)
   }
 
-  addUsuario(usuario : UsuarioModel): Observable<result<object>>{
-    return this.http.post<result<object>>(this.url, usuario);
+  addUsuario(usuario : UsuarioModel, imagen: File | null): Observable<result<UsuarioModel>>{
+    const formData = new FormData();
+    const datosBlob = new Blob([JSON.stringify(usuario)], { type: 'application/json' });
+    formData.append('datos', datosBlob);
+
+    if (imagen) {
+    formData.append('imagen', imagen);
+  }
+
+
+    return this.http.post<result<UsuarioModel>>(this.url+"/usuario", formData);
   }
 
 }

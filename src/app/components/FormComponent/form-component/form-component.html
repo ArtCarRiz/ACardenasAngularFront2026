@@ -64,10 +64,10 @@
                 </div>
                 <div class="col-md-4">
 
-                    <select class="form-select">
-                        <option value=0>Selecciona tu rol</option>
+                    <select class="form-select" formControlName="Rol">
+                        <option [ngValue]="null">Selecciona tu rol</option>
                         @for (rol of roles; track rol.IdRol) {
-                        <option value=rol.IdRol [text]=rol.NombreRol></option>
+                        <option [ngValue]="rol" [text]=rol.NombreRol></option>
                         }
                     </select>
 
@@ -75,63 +75,70 @@
             </div>
 
             <h5 class="row m-4">Direccion:</h5>
-            <div class="row m-4">
-                <div class="col-md-3">
-                    <select class="form-select" (change)="cambioPais($event)" id="selectorPais">
-                        <option>Pais</option>
-                        @for (pais of paises; track pais.IdPais) {
-                        <option [value]=pais.IdPais [text]=pais.Nombre></option>
-                        }
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select" (change)="cambioEstado($event)">
-                        <option>Estado</option>
-                        @for (estado of estados; track estado.IdEstado) {
-                        <option [value]=estado.IdEstado [text]=estado.Nombre>Estado</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select" (change)="cambioMunicipio($event)">
-                        <option>Municipio</option>
-                        @for (municipio of municipios; track municipio.IdMunicipio) {
-                        <option [value]=municipio.IdMunicipio [text]=municipio.Nombre></option>
-                        }
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select" >
-                        <option>Colonia</option>
-                        @for (colonia of colonias; track colonia.IdColonia) {
-                            <option [value]=colonia.IdColonia [text]=colonia.Nombre></option>
-                        }
-                    </select>
+            <div formArrayName="Direcciones">
+                <div formGroupName="0">
+                    <div class="row m-4">
+                        <div class="col-md-3">
+                            <select class="form-select" (change)="cambioPais($event)">
+                                <option>Pais</option>
+                                @for (pais of paises; track pais.IdPais) {
+                                <option [value]=pais.IdPais [text]=pais.Nombre></option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" (change)="cambioEstado($event)">
+                                <option>Estado</option>
+                                @for (estado of estados; track estado.IdEstado) {
+                                <option [value]=estado.IdEstado [text]=estado.Nombre>Estado</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" (change)="cambioMunicipio($event)">
+                                <option>Municipio</option>
+                                @for (municipio of municipios; track municipio.IdMunicipio) {
+                                <option [value]=municipio.IdMunicipio [text]=municipio.Nombre></option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" formControlName="colonia">
+                                <option [ngValue]="null">Colonia</option>
+                                @for (colonia of colonias; track colonia.IdColonia) {
+                                <option [ngValue]="colonia" [text]=colonia.Nombre></option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row m-4">
+
+                        <div class="col-md-3">
+                            <input class="form-control shadow" placeholder="Codigo Postal"
+                                formControlName="CodigoPostal">
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control shadow" placeholder="Calle" formControlName="Calle">
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control shadow" placeholder="No. Interior"
+                                formControlName="NumeroInterior">
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control shadow" placeholder="No.Exterior"
+                                formControlName="NumeroExterior">
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="row m-4">
-
-                <div class="col-md-3">
-                    <input class="form-control shadow" placeholder="Codigo Postal">
-                </div>
-                <div class="col-md-3">
-                    <input class="form-control shadow" placeholder="Calle">
-                </div>
-                <div class="col-md-3">
-                    <input class="form-control shadow" placeholder="No. Interior">
-                </div>
-                <div class="col-md-3">
-                    <input class="form-control shadow" placeholder="No.Exterior">
-                </div>
-            </div>
-
             <h5 class="row m-4">Imagen:</h5>
             <div class="row m-4">
                 <div class="col-md-4 text-center d-flex flex-column align-items-center">
                     <div class="card p-3 w-100 h-100">
                         <label class="form-label fw-bold">Imagen</label>
-                        <input type="file" class="form-control mb-2" name="imagenFile" id="imagenFile">
+                        <input type="file" (change)="imagenCargada($event)" accept="image/*" class="form-control mb-2"
+                            name="imagenFile" id="imagenFile" formControlName="Imagen">
                         <img id="previewImage" style="max-width: 300px; max-height: auto" class="mx-auto" src="#" />
                     </div>
                 </div>

@@ -7,10 +7,11 @@ import { pais } from '../../../Interfaces/pais-model';
 import { estado } from '../../../Interfaces/estado-model';
 import { municipio } from '../../../Interfaces/municipio-model';
 import { colonia } from '../../../Interfaces/colonia-model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-form-component',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './form-component.html',
   styleUrl: './form-component.css',
 })
@@ -21,8 +22,9 @@ export class FormComponent {
   public paises: pais[] = [];
   public estados: estado[] = [];
   public municipios: municipio[] = [];
-  public colonias: colonia[] = [];  
+  public colonias: colonia[] = [];
   public identificador: number | undefined;
+  public imagenSeleccionada: File | null = null;
 
   private formularioReactivo = inject(FormBuilder);
   private usuarioService = inject(UsuarioService);
@@ -40,18 +42,25 @@ export class FormComponent {
     Email: [''],
     Username: [''],
     Password: [''],
-    Rol: [''],
-
-    Pais: [''],
-    Estado: [''],
-    Municipio: [''],
-    Colonia: [''],
-    CodigoPostal: [''],
-    Calle: [''],
-    NumeroExterior: [''],
-    NumeroInterior: [''],
     Imagen: [''],
+    Rol: [null],
 
+
+    Direcciones: this.formularioReactivo.array([
+      this.formularioReactivo.group({
+        IdDireccion: [0],
+        CodigoPostal: [''],
+        Calle: [''],
+        NumeroExterior: [''],
+        NumeroInterior: [''],
+        colonia: [null]
+      })
+
+    ])
+    /*     Pais: [''],
+        Estado: [''],
+        Municipio: [''],
+        Colonia: [''], */
   })
 
   ngOnInit(): void {
@@ -83,11 +92,26 @@ export class FormComponent {
     )
   }
 
-
+  imagenCargada(event: any) {
+    if (event.target.files.length > 0) {
+      this.imagenSeleccionada = event.target.files[0];
+    }
+  }
 
   enviarDatos() {
     this.usuario = this.form.value as UsuarioModel;
-    this.usuarioService.addUsuario(this.usuario).subscribe;
+    this.usuario.Estatus = 1;
+    const usuarioParaEnviar = this.form.value as UsuarioModel;
+    console.log("Colonia en la dirección 0:", usuarioParaEnviar.Direcciones[0].colonia);
+    this.usuarioService.addUsuario(this.usuario, this.imagenSeleccionada).subscribe({
+      next: (data) => {
+        if (data.correct) {
+          console.log("CORRECTO adD")
+        } else {
+          console.log("INCORRECTO ADD")
+        }
+      }
+    })
 
   }
 
@@ -100,12 +124,21 @@ export class FormComponent {
     //this.getEstados(this.identificador);
   };
 
+    getEstados() {
+    this.usuarioService.getEstados(this.identificador).subscribe(
+      data => {
+        console.log(data)
+        this.estados = data.objects;
+      }
+    )
+  }
+
   cambioEstado(event: Event) {
     const optionEstado = event.target as HTMLSelectElement;
     this.identificador = +optionEstado.value;
     console.log("Id de estados: ", this.identificador);
     this.getMunicipios();
-    
+
   }
 
   cambioMunicipio(event: Event) {
@@ -115,18 +148,11 @@ export class FormComponent {
     this.getColonia();
   }
 
-  getEstados() {
-    this.usuarioService.getEstados(this.identificador).subscribe(
-      data => {
-        console.log(data)
-        this.estados = data.objects;
-      }
-    )
-  }
+
 
   getMunicipios() {
     this.usuarioService.getMunicipios(this.identificador).subscribe(
-      data =>{
+      data => {
         console.log(data);
         this.municipios = data.objects;
       }
@@ -135,7 +161,7 @@ export class FormComponent {
 
   getColonia() {
     this.usuarioService.getColonia(this.identificador).subscribe(
-      data =>{
+      data => {
         console.log(data);
         this.colonias = data.objects;
       }
