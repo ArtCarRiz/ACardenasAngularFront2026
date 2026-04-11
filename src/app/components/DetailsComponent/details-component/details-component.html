@@ -1,0 +1,176 @@
+<p>details-component works!</p>
+
+<div class="container">
+
+    <div>
+        <div class="row m-4">
+            <div class="col-md-12">
+                <h2>Detalles del usuario</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-4">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Detalles del usuario</h5>
+
+                    <div>
+                        <img />
+                        <div class="card-body">
+                            <div class="row m-4">
+                                <div class="col-md-4">
+                                    <input id="NombreUsuario" class="form-control" placeholder="Nombre"
+                                        [value]=usuario?.Nombre>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="ApellidoPaternoUsuario" class="form-control"
+                                        placeholder="Apellido Paterno" [value]=usuario?.ApellidoPaterno>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="ApellidoMaternoUsuario" class="form-control"
+                                        placeholder="Apellido Materno" [value]=usuario?.ApellidoMaterno>
+                                </div>
+                            </div>
+                            <div class="row m-4">
+                                <div class="col-md-4">
+                                    <input id="FechaNacimiento" type="date" class="form-control"
+                                        placeholder="Calendario provisional" [value]=usuario?.FechaNacimiento>
+                                </div>
+                                <div class="col-md-4">
+                                    @if (usuario?.Telefono) {
+                                    <input id="Telefono" class="form-control" placeholder="Telefono" maxlength="10"
+                                        [value]=usuario?.Telefono>
+                                    }@else {
+                                    <input id="Telefono" class="form-control" placeholder="Telefono" maxlength="10"
+                                        value="Sin telefono registrado">
+                                    }
+                                </div>
+                                <div class="col-md-4">
+                                    @if (usuario?.Celular) {
+                                    <input id="Celular" class="form-control" placeholder="Celular" maxlength="10"
+                                        [value]=usuario?.Celular>
+                                    }@else {
+                                    <input id="Celular" class="form-control" placeholder="Celular" maxlength="10"
+                                        value="Sin celular registrado">
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="row m-4">
+                                <div class="col-md-12">
+                                    <input id="Email" class="form-control" placeholder="Email" [value]=usuario?.Email>
+                                </div>
+
+                            </div>
+
+                            <div class="row m-4">
+                                <div class="col-md-12">
+                                    <input id="Username" class="form-control" placeholder="Nombre de usuario"
+                                        [value]=usuario?.Username>
+                                </div>
+                            </div>
+
+                            <div class="row m-4">
+                                <div class="col-md-12">
+                                    <div>
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                            id="flexRadioDefault1" [value]=usuario?.Sexo>
+                                        <label class="form-check-label" for="flexRadioDefault1">Hombre</label>
+
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                            id="flexRadioDefault2" [value]=usuario?.Sexo>
+                                        <label class="form-check-label" for="flexRadioDefault2">Mujer</label>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row m-4">
+                                <div class="col-md-12">
+                                    @if (usuario?.Curp) {
+                                    <input id="Curp" class="form-control" placeholder="Curp" [value]=usuario?.Curp>
+
+                                    }@else {
+                                    <input id="Curp" class="form-control" placeholder="Curp" value="Sin curp registrada"
+                                        disabled>
+                                    }
+
+                                </div>
+                            </div>
+
+                            <div class="row m-4">
+                                <div class="col-md-12">
+                                    <input id="Rol" class="form-control" placeholder="Rol"
+                                        [value]=usuario?.Rol?.NombreRol>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-md-4" style="display: flex; justify-content: center;">
+                            <button type="button" class="btn btn-warning">Usuario</button>
+                        </div>
+                        <div class="col-md-4" style="display: flex; justify-content: center;">
+                            <button type="button" class="btn btn-warning">
+                                ImagenU
+                            </button>
+                        </div>
+                        <div class="col-md-4" style="display: flex; justify-content: center;">
+                            <button type="button" class="btn btn-warning">Contraseña</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <h5 class="card-title col-md-6">Direcciones Registradas</h5>
+                        <button type="button" class="btn btn-primary col-md-4"><i class="bi bi-house-add"></i>
+                            Agregar</button>
+                    </div>
+                    @for (direccion of usuario?.Direcciones; track direccion.IdDireccion) {
+                    <div class="row border-bottom mb-3 pb-2">
+                        <div class="col-md-3">
+                            <label class="small text-muted">Colonia</label>
+                            <p>{{ direccion.colonia.Nombre}}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="small text-muted">CP</label>
+                            <p>{{ direccion.colonia.CodigoPostal }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="small text-muted">Calle y Números</label>
+                            <p>
+                                Calle {{ direccion.Calle }}, Ext. {{ direccion.NumeroExterior }}, Int. {{
+                                direccion.NumeroInterior }}
+                            </p>
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-danger">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            <button type="button" class="btn btn-warning">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                        </div>
+                    </div>
+                    }@empty {
+                        <div>
+                            <p>Sin direcciones registradas</p>
+                        </div>
+                    }
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

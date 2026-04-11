@@ -1,8 +1,14 @@
-<div class="container">
+<div class="container shadow">
+
+    <div class="row m-2">
+        <div class="col-md-4">
+            <h2 class="fw-bold">Informacion de usuarios: </h2>
+        </div>
+    </div>
 
     <div class="row m-2">
         <nav>
-            <a routerLink="form" class="btn btn-primary col-md-3">Agregar nuevo usuario</a>
+            <a [routerLink]="['/form']" class="btn btn-primary col-md-3">Agregar nuevo usuario</a>
         </nav>
     </div>
     <div class="cl-sm table-responsive">
@@ -22,13 +28,21 @@
                 <tr>
 
 
-                    <td>
+                    <td class="col-2">
                         <span>
+                            <div>
 
-                            <img [src]="'data:image/png;base64,' + usuario.Imagen" />
-                            <br>
-                            {{usuario.Nombre}} {{usuario.ApellidoPaterno}} {{usuario.ApellidoMaterno}}
 
+                                @if (usuario.Imagen) {
+                                <img [src]="'data:image/png;base64,' + usuario.Imagen"
+                                    class="rounded-circle img-fluid w-75" />
+                                }@else {
+                                <img [src]=imagenDefault class="rounded-image" class="rounded-circle img-fluid w-75" />
+                                }
+
+                                <br>
+                                {{usuario.Nombre}} {{usuario.ApellidoPaterno}} {{usuario.ApellidoMaterno}}
+                            </div>
                         </span>
                     </td>
 
@@ -56,9 +70,10 @@
                     </td>
 
                     <td>
-                        <a class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
-                        <a class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
-                        <div class="form-check form-switch">
+                        <a [routerLink]="['/details/'+ usuario.IdUsuario]" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
+                        <a (click)="deleteUsuario($event, usuario.IdUsuario)" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
+                        <div class="form-check form-switch"
+                            (change)="updateEstatus($event, usuario.IdUsuario, usuario.Estatus)">
                             <input class="form-check-input switch-estatus" type="checkbox" role="switch">
                             <label class="form-check-label" for="flexSwitchCheckDefault">estatus</label>
                         </div>

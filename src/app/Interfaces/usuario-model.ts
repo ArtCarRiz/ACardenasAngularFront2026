@@ -1,4 +1,5 @@
 import { direccion } from "./direccion-model";
+import { Rol } from "./rol-model";
 
 export interface UsuarioModel {
     IdUsuario: number,
@@ -15,8 +16,6 @@ export interface UsuarioModel {
     Curp: string,
     Imagen: string,
     Estatus: number,
-    Direcciones: direccion[]
-
-
-
+    Direcciones: direccion[],
+    Rol: Rol
 }

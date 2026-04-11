@@ -49,9 +49,19 @@ export class UsuarioService {
     if (imagen) {
     formData.append('imagen', imagen);
   }
-
-
     return this.http.post<result<UsuarioModel>>(this.url+"/usuario", formData);
+  }
+
+  udpateEstatus(idUsuario: number, estatus: number): Observable<result<UsuarioModel>>{
+    return this.http.patch<result<UsuarioModel>>(this.url+"/usuario/Estatus?identificador=" + idUsuario + "&estatus=" + estatus, null);
+  }
+
+  deleteUsuario(idUsuario: number): Observable<result<UsuarioModel>>{
+    return this.http.delete<result<UsuarioModel>>(this.url+"/usuario/Delete/Usuario/"+idUsuario);  
+  }
+
+  getById(idUsuario: number): Observable<result<UsuarioModel>>{
+    return this.http.get<result<UsuarioModel>>(this.url+"/usuario/" + idUsuario);
   }
 
 }
