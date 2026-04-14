@@ -8,6 +8,7 @@ import { pais } from '../Interfaces/pais-model';
 import { estado } from '../Interfaces/estado-model';
 import { municipio } from '../Interfaces/municipio-model';
 import { colonia } from '../Interfaces/colonia-model';
+import { direccion } from '../Interfaces/direccion-model';
 
 @Injectable({
   providedIn: 'root',
@@ -62,6 +63,14 @@ export class UsuarioService {
 
   getById(idUsuario: number): Observable<result<UsuarioModel>>{
     return this.http.get<result<UsuarioModel>>(this.url+"/usuario/" + idUsuario);
+  }
+
+  deleteDireccion(idDireccion: number): Observable<result<direccion>>{
+    return this.http.delete<result<direccion>>(this.url+"/usuario/Delete/Direccion?identificador=" + idDireccion);
+  }
+
+  updateUsuario(usuario : UsuarioModel, idUsuario: number): Observable<result<UsuarioModel>>{
+    return this.http.put<result<UsuarioModel>>(this.url+"/usuario?identificador=" + idUsuario, usuario);
   }
 
 }

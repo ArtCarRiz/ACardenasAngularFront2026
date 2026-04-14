@@ -57,10 +57,6 @@ export class FormComponent {
       })
 
     ])
-    /*     Pais: [''],
-        Estado: [''],
-        Municipio: [''],
-        Colonia: [''], */
   })
 
   ngOnInit(): void {
